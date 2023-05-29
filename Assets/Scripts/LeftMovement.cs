@@ -14,9 +14,9 @@ public class LeftMovement : MonoBehaviour
         {
             imgWidht = GetComponent<BoxCollider2D>().size.x;
         }
-        else if(gameObject.CompareTag("Column"))
+        else if(gameObject.CompareTag("Obstacles"))
         {
-            obstacleWidht = GameObject.FindGameObjectWithTag("Column").GetComponent<BoxCollider2D>().size.x;
+            obstacleWidht = GameObject.FindGameObjectWithTag("Obstacles").GetComponent<BoxCollider2D>().size.x;
         }
     }
 
@@ -29,6 +29,13 @@ public class LeftMovement : MonoBehaviour
             if(transform.position.x < -imgWidht)
             {
                 transform.position = new Vector3(imgWidht, transform.position.y);
+            }
+        }
+        else if(gameObject.CompareTag("Obstacles"))
+        {
+            if(transform.position.x < GameManager.bottomLeft.x - obstacleWidht)
+            {
+                Destroy(gameObject);
             }
         }
             

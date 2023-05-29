@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
-    private Rigidbody2D rigidbody2d;
     [SerializeField] private float speedY = 9f;
+    [SerializeField] private Score scoreScript;
+    private Rigidbody2D rigidbody2d;
     private int angle;
     private int maxAngle = 45;
     private int minAngle = -20;
@@ -35,6 +36,13 @@ public class Fish : MonoBehaviour
         angle = Mathf.Clamp(angle, minAngle, maxAngle);
 
         transform.rotation = Quaternion.Euler(0,0, angle);
+    }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(other.CompareTag("Obstacles"))
+        {
+            scoreScript.Scored();
+        }
     }
 }
