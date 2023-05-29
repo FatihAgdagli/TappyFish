@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rigidbody2d;
     [SerializeField] private float speedY = 9f;
     private int angle;
     private int maxAngle = 45;
@@ -12,21 +13,21 @@ public class Fish : MonoBehaviour
 
     private void Start() 
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
     }
 
     private void Update() 
     {
         if( Input.GetMouseButtonDown(0))
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, speedY);
+            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, speedY);
         }    
 
-        if(rigidbody.velocity.y > 0)
+        if(rigidbody2d.velocity.y > 0)
         {
             angle += 4;
         }
-        else if (rigidbody.velocity.y < 0)
+        else if (rigidbody2d.velocity.y < 0)
         {
             angle -=2;
         }
