@@ -82,7 +82,8 @@ public class Fish : MonoBehaviour
         }
         else if(other.CompareTag("Column"))
         {
-            Debug.Log("Game Over");
+            gameManager.GameOver();
+            GameOver();
         }
     }
 
