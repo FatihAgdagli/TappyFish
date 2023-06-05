@@ -9,6 +9,9 @@ public class Fish : MonoBehaviour
     [SerializeField] private Score scoreScript;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Sprite deadFishSpride;
+    [SerializeField] private AudioSource pointAudio;
+    [SerializeField] private AudioSource swimAudio;
+    [SerializeField] private AudioSource hitAudio;
 
     private Rigidbody2D rigidbody2d;
     private Animator animator;
@@ -26,6 +29,8 @@ public class Fish : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         rigidbody2d = GetComponent<Rigidbody2D>();
+
+        rigidbody2d.gravityScale = 0f;
     }
 
     private void Update() 
@@ -40,6 +45,11 @@ public class Fish : MonoBehaviour
 
     private void FishRotation()
     {
+        if(!GameManager.gameStarted)
+        {
+            return;
+        }
+
         if (touchedGround)
         {
             return;
@@ -67,10 +77,17 @@ public class Fish : MonoBehaviour
             return;
         }
 
+
+
         if( Input.GetMouseButtonDown(0))
         {
+            rigidbody2d.gravityScale = 4f;
             rigidbody2d.velocity = Vector2.zero;
             rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, speedY);
+
+            gameManager.GameHasStarted();
+
+            swimAudio.Play();
         } 
    }
 
@@ -78,12 +95,20 @@ public class Fish : MonoBehaviour
     {
         if(other.CompareTag("Obstacles"))
         {
+            if (GameManager.gameOver)
+            {
+                return;
+            }
+
+            pointAudio.Play();
+
             scoreScript.Scored();
         }
         else if(other.CompareTag("Column"))
         {
-            gameManager.GameOver();
             GameOver();
+
+            gameManager.GameOver();
         }
     }
 
@@ -93,8 +118,9 @@ public class Fish : MonoBehaviour
         {
             if (!GameManager.gameOver)
             {
-                gameManager.GameOver();
                 GameOver();
+
+                gameManager.GameOver();
             }
             else
             {
@@ -105,6 +131,13 @@ public class Fish : MonoBehaviour
 
     private void GameOver()
     {
+        if (GameManager.gameOver)
+        {
+            return;
+        }
+
+        hitAudio.Play();
+
         touchedGround = true;
 
         animator.enabled = false;

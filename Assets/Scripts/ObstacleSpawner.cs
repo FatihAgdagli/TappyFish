@@ -14,6 +14,11 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Update() 
     {
+        if(!GameManager.gameStarted)
+        {
+            return;
+        }
+
         if(GameManager.gameOver)
         {
             return;

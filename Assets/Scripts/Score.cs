@@ -7,6 +7,7 @@ public class Score : MonoBehaviour
 {
     [SerializeField] private Text scoreBoardScore;
     [SerializeField] private Text scoreBoardHighcore;
+    [SerializeField] private GameObject newHighScore;
 
     private Text scoreText;
     private int score;
@@ -34,7 +35,13 @@ public class Score : MonoBehaviour
             scoreBoardHighcore.text = highScore.ToString();
 
             PlayerPrefs.SetInt(nameof(highScore), highScore);
+
+            newHighScore.SetActive(true);
         }
     }
 
+    public int GetScore()
+    {
+        return score;
+    }
 }
